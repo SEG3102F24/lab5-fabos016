@@ -1,7 +1,9 @@
-import {Component, inject} from '@angular/core';
-import {EmployeeService} from "../service/employee.service";
+import {Component, OnInit, inject} from '@angular/core';
+import {EmployeeDbService} from "../employee-list/firestore/employee-db.service";
 import { RouterLink } from '@angular/router';
 import { NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { Observable } from 'rxjs';
+import { EmployeeEntry } from '../employee-list/employee-entry'; // Adjust the import path
 
 @Component({
     selector: 'app-employees',
@@ -10,6 +12,12 @@ import { NgFor, AsyncPipe, DatePipe } from '@angular/common';
     standalone: true,
     imports: [RouterLink, NgFor, AsyncPipe, DatePipe]
 })
-export class EmployeesComponent {
-  protected employees: EmployeeService = inject(EmployeeService);
+export class EmployeesComponent implements OnInit {
+  protected employeeDbService: EmployeeDbService = inject(EmployeeDbService);
+
+  employees$!: Observable<EmployeeEntry[]>;
+
+  ngOnInit() {
+    this.employees$ = this.employeeDbService.getEmployees();
+  }
 }

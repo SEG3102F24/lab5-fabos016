@@ -1,8 +1,8 @@
 import {Component, inject} from '@angular/core';
 import { AbstractControl, FormBuilder, Validators, ReactiveFormsModule } from "@angular/forms";
-import {EmployeeService} from "../service/employee.service";
+import {EmployeeDbService} from "../employee-list/firestore/employee-db.service";
 import { Router, RouterLink } from "@angular/router";
-import {Employee} from "../model/employee";
+import {EmployeeEntry} from "../employee-list/employee-entry";
 
 @Component({
     selector: 'app-employee',
@@ -13,7 +13,7 @@ import {Employee} from "../model/employee";
 })
 export class EmployeeComponent {
   private builder: FormBuilder = inject(FormBuilder);
-  private employeeService: EmployeeService = inject(EmployeeService);
+  private employeeService: EmployeeDbService = inject(EmployeeDbService);
   private router: Router = inject(Router);
   employeeForm = this.builder.group({
     name: ['', Validators.required],
@@ -32,7 +32,7 @@ export class EmployeeComponent {
   get email(): AbstractControl<string> {return <AbstractControl<string>>this.employeeForm.get('email'); }
 
   onSubmit() {
-    const employee: Employee = new Employee(this.name.value,
+    const employee: EmployeeEntry = new EmployeeEntry(this.name.value,
       new Date(this.dateOfBirth.value),
       this.city.value,
       this.salary.value,
