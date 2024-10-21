@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {appConfig} from '../../app.config'
 import { EmployeeDbService } from './employee-db.service';
 import { EmployeeEntry } from '../../employee-list/employee-entry'
+import { Timestamp } from '@angular/fire/firestore';
 
 
 describe('EmployeeDbService', () => {
@@ -24,7 +25,7 @@ describe('EmployeeDbService', () => {
     {
       const employee: EmployeeEntry = {
         name: 'Test User',
-        dateOfBirth: new Date(),
+        dateOfBirth: new Timestamp(123, 123),
         city: 'Ottawa',
         salary: 99999,
         gender: 'X',
